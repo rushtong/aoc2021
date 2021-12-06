@@ -1,7 +1,7 @@
 package day_5
 
 static void main(String[] args) {
-    println("Hydrothermal Vents")
+    println("Hydrothermal Vents Part 1")
     File file = new File("./input.txt")
     List<String> lines = file.readLines()
     List<XYPairs> pairs = lines.collect { String it -> new XYPairs(it) }
