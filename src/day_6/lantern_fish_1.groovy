@@ -7,9 +7,9 @@ static void main(String[] args) {
     List<Fish> fish = file.readLines().get(0).split(',').collect {new Fish(Integer.valueOf(it))}
     println("Initial State (" + fish.size() + "): " + fish)
 
-    def range = 1..80
+    def range = 1..256
     range.each {day ->
-        List<Fish> newFish = FishUtil.incrementFish(fish).sort({it.spawnTimer})
+        List<Fish> newFish = FishUtil.incrementFish(fish)
         println("After " + day + " day: (" + newFish.size() + ")")// + newFish)
         fish = newFish
     }
@@ -42,11 +42,4 @@ class Fish {
         String.valueOf(getSpawnTimer())
     }
 
-//    String toString(int day) {
-//        if (spawnTimer >= day) {
-//            String.valueOf(getSpawnTimer() - day)
-//        } else {
-//            "???"
-//        }
-//    }
 }
