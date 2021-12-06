@@ -7,10 +7,10 @@ static void main(String[] args) {
     List<Fish> fish = file.readLines().get(0).split(',').collect {new Fish(Integer.valueOf(it))}
     println("Initial State (" + fish.size() + "): " + fish)
 
-    def range = 1..256
+    def range = 1..80
     range.each {day ->
         List<Fish> newFish = FishUtil.incrementFish(fish)
-        println("After " + day + " day: (" + newFish.size() + ")")// + newFish)
+        println("After  day " + day + ": (" + newFish.size() + ")")
         fish = newFish
     }
 
@@ -19,6 +19,16 @@ static void main(String[] args) {
 class FishUtil {
     static List<Fish> incrementFish(List<Fish> fish) {
         fish.collect {it.spawn() }.flatten()
+    }
+
+    static List<Integer> incrementFishIntegers(List<Integer> fish) {
+        fish.collect {it -> {
+            if (it == 0) {
+                [6, 8]
+            } else {
+                [it - 1]
+            }
+        }}.flatten()
     }
 }
 
