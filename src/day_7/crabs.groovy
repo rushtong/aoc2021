@@ -20,7 +20,7 @@ class Crabs {
         Map<Integer, Integer> positionToFuelCostMap = new HashMap<>()
         positionRange.each {position ->
             int[] fuelCosts = crabPositions.collect {crabPosition -> {
-                Math.abs(crabPosition - position)
+                partOneFuelCost(crabPosition, position)
             }}
             positionToFuelCostMap.put(position, fuelCosts.sum())
         }
@@ -32,6 +32,10 @@ class Crabs {
         def minEntries = positionToFuelCostMap.findAll {it.value == min }
         println("Min Entries: ")
         minEntries.each {println(it)}
+    }
+
+    static int partOneFuelCost(Integer crabPosition, Integer position) {
+        Math.abs(crabPosition - position)
     }
 }
 
