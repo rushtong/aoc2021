@@ -33,24 +33,38 @@ static void main(String[] args) {
 
     // Iterate over each fish in the original map for all days, then sum them up
     // Still too slow.
-    List<List<Integer>> fishMap = fish.collect {[it] }
-    Integer interimCounter = 0
-    def range = 1..175
-    fishMap.eachWithIndex {fishSubList, index ->
-        def fishSubListCopy = fishSubList
-        range.each { day ->
-            List<Integer> newFish = FishUtil.incrementFishIntegers(fishSubListCopy)
-            fishSubListCopy = newFish
-        }
-        println("Iterated over fishMap index: " + index + " ... size: " + fishSubListCopy.size())
-        interimCounter += fishSubListCopy.size()
-    }
-    println("After  day " + 256 + ": (" + interimCounter + ")")
+//    List<List<Integer>> fishMap = fish.collect {[it] }
+//    Integer interimCounter = 0
+//    def range = 1..175
+//    fishMap.eachWithIndex {fishSubList, index ->
+//        def fishSubListCopy = fishSubList
+//        range.each { day ->
+//            List<Integer> newFish = FishUtil.incrementFishIntegers(fishSubListCopy)
+//            fishSubListCopy = newFish
+//        }
+//        println("Iterated over fishMap index: " + index + " ... size: " + fishSubListCopy.size())
+//        interimCounter += fishSubListCopy.size()
+//    }
+//    println("After  day " + 256 + ": (" + interimCounter + ")")
 
     // A different approach would be to do the calculations only once
     // for a fish of initial count 1 (there are lots of them)
     // Then, just multiply the counts by the number of times the initial count
     // appears in the initial list
+
+    // Still running out of memory on a single fish.
+    // Need a better way to do the incrementing.
+    Map<Integer, Integer> fishStateMap = new HashMap<>()
+    def intRange = 1..fish.max()
+    def dayRange = 1..256
+    intRange.each {fishState ->
+        def interimFishState = [fishState]
+        dayRange.each {day ->
+            interimFishState = FishUtil.incrementFishIntegers(interimFishState)
+        }
+        fishStateMap.put(fishState, interimFishState.size())
+    }
+    println(fishStateMap)
 
 }
 
