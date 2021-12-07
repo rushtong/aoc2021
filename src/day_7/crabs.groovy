@@ -13,8 +13,8 @@ class Crabs {
                 .flatten() as List<Integer>
         println(crabPositions)
 
-        // Try to calculate the fuel cost of moving all
-        // crabs to each of the possible positions.
+        // Calculate the fuel cost of moving each
+        // crab to each of the possible positions.
         // With that data, we can find the min value
         // in the position to fuel cost map
         Range<Integer> positionRange = crabPositions.min()..crabPositions.max()
@@ -42,11 +42,10 @@ class Crabs {
     }
 
     static int partTwoFuelCost(Integer crabPosition, Integer position) {
-        int diff = Math.abs(crabPosition - position)
-        fact(diff)
+        fact(Math.abs(crabPosition - position))
     }
 
-    static int fact(n) {
+    static int fact(int n) {
         n == 0 ? 0 : n + fact(n - 1)
     }
 }
