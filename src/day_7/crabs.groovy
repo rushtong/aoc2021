@@ -2,14 +2,15 @@ package day_7
 
 class Crabs {
     static void main(String[] args) {
+        boolean train = false
+        boolean partOne = false
         println("Crab Positions")
-//        File file = new File("./src/day_7/train.txt")
-        File file = new File("./src/day_7/input.txt")
+        File file = train ? new File("./src/day_7/train.txt") : new File("./src/day_7/input.txt")
         List<Integer> crabPositions = file
                 .readLines()
                 .collect {line -> line.split(",")}
                 .collect {strings -> strings.collect {it -> Integer.valueOf(it)}}
-                .flatten()
+                .flatten() as List<Integer>
         println(crabPositions)
 
         // Try to calculate the fuel cost of moving all
@@ -18,11 +19,13 @@ class Crabs {
         // in the position to fuel cost map
         Range<Integer> positionRange = crabPositions.min()..crabPositions.max()
         Map<Integer, Integer> positionToFuelCostMap = new HashMap<>()
-        positionRange.each {position ->
-            int[] fuelCosts = crabPositions.collect {crabPosition -> {
-                partOneFuelCost(crabPosition, position)
-            }}
-            positionToFuelCostMap.put(position, fuelCosts.sum())
+        positionRange.each {destination ->
+            int[] fuelCosts = crabPositions.collect { crabPosition -> {
+                partOne ?
+                        partOneFuelCost(crabPosition, destination) :
+                        partTwoFuelCost(crabPosition, destination)
+            }} as int[]
+            positionToFuelCostMap.put(destination, fuelCosts.sum())
         }
         int max = positionToFuelCostMap.values().max()
         def maxEntries = positionToFuelCostMap.findAll {it.value == max }
@@ -36,6 +39,15 @@ class Crabs {
 
     static int partOneFuelCost(Integer crabPosition, Integer position) {
         Math.abs(crabPosition - position)
+    }
+
+    static int partTwoFuelCost(Integer crabPosition, Integer position) {
+        int diff = Math.abs(crabPosition - position)
+        fact(diff)
+    }
+
+    static int fact(n) {
+        n == 0 ? 0 : n + fact(n - 1)
     }
 }
 
