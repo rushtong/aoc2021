@@ -8,6 +8,7 @@ class Crabs {
         File file = train ? new File("./src/day_7/train.txt") : new File("./src/day_7/input.txt")
         List<Integer> crabPositions = file
                 .readLines()
+                .get(0)
                 .collect {line -> line.split(",")}
                 .collect {strings -> strings.collect {it -> Integer.valueOf(it)}}
                 .flatten() as List<Integer>
