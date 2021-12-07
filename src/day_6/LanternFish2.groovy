@@ -10,23 +10,21 @@ class LanternFish2 {
         Collection<Integer> fish = file.readLines().get(0).split(',').collect {Integer.valueOf(it) }
         println("Initial State (" + fish.size() + "): " + fish)
 
-
         // Do the calculations only once for a fish of initial count 1 (there are lots of them)
         // Then, just multiply the counts by the number of times the initial count
         // appears in the initial list
 
         Map<Integer, Integer> spawnStateMap = new HashMap<>()
-//        def intRange = 1..fish.max()
-        def intRange = 1..1
+        def intRange = 1..fish.max()
         intRange.each {spawnState ->
-            def tempState = spawnFactorial(200, [spawnState])
+            def tempState = spawnFactorial(256, [spawnState])
             spawnStateMap.put(spawnState, tempState.size())
         }
         println(spawnStateMap)
     }
 
     static List<Integer> spawnFactorial(int day, List<Integer> accumulator) {
-        println("Day: " + (200 - day + 1) + " size:" + accumulator.size())
+        println("Day: " + (256 - day + 1) + " size:" + accumulator.size())
         day == 1 ?
                 accumulator :
                 spawnFactorial(day - 1, accumulator.collect {spawn(it)}.flatten() as List<Integer>)
