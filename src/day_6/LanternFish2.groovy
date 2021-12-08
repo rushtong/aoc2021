@@ -19,36 +19,44 @@ class LanternFish2 {
         // Calculate the value for anything above that manually (2 is just 1 more than the count for 1, etc)
         // Lastly, sum up the matching count for each value in the input file for a total
 
-//  export JAVA_OPTS="$JAVA_OPTS -Xmx8000M" gets me to 205-ish
+// ➜  export JAVA_OPTS="$JAVA_OPTS -Xmx8000M" gets me to 205-ish
+
 // ➜  aoc2021 git:(main) ✗ export JAVA_OPTS="$JAVA_OPTS -Xmx10000M" groovy ./src/day_6/LanternFish2.groovy
-// ➜  Gets me to around ...
+// ➜  Gets me to around ... 226-ish and we hit OOM
+
+// ➜  aoc2021 git:(main) ✗ export JAVA_OPTS="$JAVA_OPTS -Xmx14000M" groovy ./src/day_6/LanternFish2.groovy
+// ➜  Gets me to around ... 229-ish, insanely slow
+
+// ➜  aoc2021 git:(main) ✗ export JAVA_OPTS="$JAVA_OPTS -Xmx56000M" groovy ./src/day_6/LanternFish2.groovy
+// ➜  Gets me to around ... 240 after a couple hours
+
+// ➜  aoc2021 git:(main) ✗ export JAVA_OPTS="$JAVA_OPTS -Xmx150000M" groovy ./src/day_6/LanternFish2.groovy
+// ➜  Gets me to around ... 244 before OOM
+
         Map<Integer, Integer> spawnStateMap = new HashMap<>()
         def spawnState1 = spawnFactorial(256, [1])
-//        // Spawn rates of anything more than 1 is just one additional prepended array element
+        // Spawn rates of anything more than 1 is just one additional prepended array element
         spawnStateMap.put(1, spawnState1.size())
         spawnStateMap.put(2, spawnState1.size() + 1)
         spawnStateMap.put(3, spawnState1.size() + 2)
         spawnStateMap.put(4, spawnState1.size() + 3)
         spawnStateMap.put(5, spawnState1.size() + 4)
-//        // After 6, there are 2 additional prepended array elements since that's when we spawn
-        spawnStateMap.put(6, spawnState1.size() + 8)
-        spawnStateMap.put(7, spawnState1.size() + 9)
-        spawnStateMap.put(8, spawnState1.size() + 10)
-        spawnStateMap.put(9, spawnState1.size() + 11)
+        // There are no input values over 5
 
         println(spawnStateMap)
     }
 
     @TailRecursive
     static List<Integer> spawnFactorial(int day, List<Integer> accumulator) {
-        println("Day: " + day)
+        println("Day: " + (257 - day))
         day == 1 ?
                 accumulator :
-                spawnFactorial(day - 1, accumulator.collect {spawn(it)}.flatten() as List<Integer>)
+                spawnFactorial(day - 1, accumulator.collect{spawnMap.get(it)}.flatten() as List<Integer>)
     }
 
-    static List<Integer> spawn(int n) {
-        n == 0 ? [6, 8] : [n - 1]
-    }
+    // Testing if this is quicker than the calculation version ... it does a little bit!
+    static final Map<Integer, List<Integer>> spawnMap = [
+            0: [6,8], 1: [0], 2: [1], 3: [2], 4: [3],
+            5: [4],   6: [5], 7: [6], 8: [7], 9: [8]]
 
 }
