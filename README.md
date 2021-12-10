@@ -12,7 +12,7 @@ Days
 * [Seven](src/day_7/README.md): (Groovy)
 * [Eight](src/day_8/README.md): (Groovy)
 * [Nine](src/day_9/README.md): (Groovy)
-* Ten
+* [Ten](src/day_10/README.md): (Groovy)
 * Eleven
 * Twelve
 * Thirteen
